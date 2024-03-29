@@ -1,28 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { getSongs } from "../redux/actions";
 
-function SideBar() {
-  const search = async (event) => {
-    event.preventDefault();
-    const searchQuery = document.querySelector("#searchField").value;
+const SideBar = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const dispatch = useDispatch();
 
+  const handleChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (searchQuery.length > 2) {
-      try {
-        const response = await fetch(`https://striveschool-api.herokuapp.com/api/deezer/search?q=${searchQuery}`, {
-          method: "GET",
-          headers: {
-            "X-RapidAPI-Host": "deezerdevs-deezer.p.rapidapi.com",
-            "X-RapidAPI-Key": "9d408f0366mshab3b0fd8e5ecdf7p1b09f2jsne682a1797fa0",
-          },
-        });
-        if (response.ok) {
-          const { data } = await response.json();
-          console.log("Risultati della ricerca:", data);
-        } else {
-          throw new Error("Errore nella ricerca delle canzoni");
-        }
-      } catch (error) {
-        console.error("Errore:", error);
-      }
+      dispatch(getSongs(searchQuery));
     } else {
       console.log("La query di ricerca deve essere lunga almeno 3 caratteri");
     }
@@ -60,21 +52,21 @@ function SideBar() {
                   </a>
                 </li>
                 <li>
-                  <form className="input-group mt-3" onSubmit={(event) => search(event)}>
-                    <input
+                  <Form onSubmit={handleSubmit} className="input-group mt-3">
+                    <Form.Control
                       type="text"
                       className="form-control"
                       id="searchField"
                       placeholder="Search"
                       aria-label="Search"
                       aria-describedby="basic-addon2"
+                      value={searchQuery}
+                      onChange={handleChange}
                     />
-                    <div className="input-group-append">
-                      <button className="btn btn-outline-secondary btn-sm h-100" type="submit">
-                        GO
-                      </button>
-                    </div>
-                  </form>
+                    <Button variant="outline-secondary" type="submit" className="btn-sm h-125">
+                      GO
+                    </Button>
+                  </Form>
                 </li>
               </ul>
             </div>
@@ -95,6 +87,6 @@ function SideBar() {
       </nav>
     </div>
   );
-}
+};
 
 export default SideBar;

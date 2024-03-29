@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import AlbumCard from "./AlbumCard";
+import { useSelector } from "react-redux";
 
-const Main = ({ searchResults }) => {
+const Main = () => {
+  const searchResults = useSelector((state) => state.search.available);
   const [rock, setRock] = useState([]);
   const [pop, setPop] = useState([]);
   const [hiphop, setHipHop] = useState([]);
@@ -22,7 +24,7 @@ const Main = ({ searchResults }) => {
         throw new Error("Errore nel recupero delle canzoni");
       }
     } catch (error) {
-      console.error("Errore:", error);
+      console.log("Errore:", error);
     }
   };
 
@@ -54,41 +56,43 @@ const Main = ({ searchResults }) => {
         </div>
       </div>
 
-      {searchResults.length > 0 && (
-        <div id="searchSection">
-          <h2 className="text-white">Search Results</h2>
+      <div className="mainPage">
+        {searchResults.length > 0 && (
+          <div id="searchSection">
+            <h2 className="text-white">Search Results</h2>
+            <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3">
+              {searchResults.map((songInfo) => (
+                <AlbumCard key={songInfo.id} songInfo={songInfo} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div id="rockSection">
+          <h2 className="text-white">Rock</h2>
           <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3">
-            {searchResults.map((songInfo) => (
+            {rock.map((songInfo) => (
               <AlbumCard key={songInfo.id} songInfo={songInfo} />
             ))}
           </div>
         </div>
-      )}
 
-      <div id="rockSection">
-        <h2 className="text-white">Rock</h2>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3">
-          {rock.map((songInfo) => (
-            <AlbumCard key={songInfo.id} songInfo={songInfo} />
-          ))}
+        <div id="popSection">
+          <h2 className="text-white">Pop</h2>
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3">
+            {pop.map((songInfo) => (
+              <AlbumCard key={songInfo.id} songInfo={songInfo} />
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div id="popSection">
-        <h2 className="text-white">Pop</h2>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3">
-          {pop.map((songInfo) => (
-            <AlbumCard key={songInfo.id} songInfo={songInfo} />
-          ))}
-        </div>
-      </div>
-
-      <div id="hipHopSection">
-        <h2 className="text-white">Hip Hop</h2>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3">
-          {hiphop.map((songInfo) => (
-            <AlbumCard key={songInfo.id} songInfo={songInfo} />
-          ))}
+        <div id="hipHopSection">
+          <h2 className="text-white">Hip Hop</h2>
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3">
+            {hiphop.map((songInfo) => (
+              <AlbumCard key={songInfo.id} songInfo={songInfo} />
+            ))}
+          </div>
         </div>
       </div>
     </div>

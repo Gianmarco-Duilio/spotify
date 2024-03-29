@@ -1,5 +1,4 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import SideBar from "./Components/SideBar";
