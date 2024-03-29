@@ -19,34 +19,38 @@ function Player() {
         <div className="offset-lg-2">
           <div className="row h-100 flex-column justify-content-center align-items-center">
             <Row>
-              <Col xs={3}>
-                <div className=" d-flex flex-row align-items-center">
-                  <img src={selectedSong.album.cover_small} className="card-img-left" alt={selectedSong.title} />
-                  <div className="card-body">
-                    <h5 className="card-title text-white ms-2">{selectedSong.album.title}</h5>
-                    <p className="card-text text-white  ms-2">Artist: {selectedSong.artist.name}</p>
+              {selectedSong ? (
+                <Col xs={3}>
+                  <div className=" d-flex flex-row align-items-center">
+                    <img src={selectedSong.album.cover_small} className="card-img-left" alt={selectedSong.title} />
+                    <div className="card-body">
+                      <h5 className="card-title text-white ms-2">{selectedSong.album.title}</h5>
+                      <p className="card-text text-white  ms-2">Artist: {selectedSong.artist.name}</p>
+                    </div>
+                    <Button
+                      className="mt-4"
+                      style={{ border: "none", background: "none" }}
+                      onClick={handleAddToFavorites}
+                    >
+                      {isFavorite ? (
+                        <PiHeartStraightFill
+                          style={{
+                            color: "red",
+                          }}
+                        />
+                      ) : (
+                        <BiHeart
+                          style={{
+                            color: "grey",
+                          }}
+                        />
+                      )}
+                    </Button>
                   </div>
-                  <Button
-                    className="mt-4"
-                    style={{ border: "none", background: "none" }}
-                    onClick={handleAddToFavorites}
-                  >
-                    {isFavorite ? (
-                      <PiHeartStraightFill
-                        style={{
-                          color: "red",
-                        }}
-                      />
-                    ) : (
-                      <BiHeart
-                        style={{
-                          color: "grey",
-                        }}
-                      />
-                    )}
-                  </Button>
-                </div>
-              </Col>
+                </Col>
+              ) : (
+                <Col xs={3}></Col>
+              )}
               <div className="col-4 col-md-4 playerControls">
                 <div className="d-flex">
                   <a href="#">
